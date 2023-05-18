@@ -1,0 +1,16 @@
+  version: '3'
+# Container conf
+  services:
+    app:
+      container_name: k8-pod-healthcheck
+      image: docker.repo1.uhc.com/image_processing_platform/k8-pod-healthcheck:v83
+      volumes:
+        - nas_volume:/tmp/ipp_storage
+# Create volume
+  volumes:
+    nas_volume:
+      driver: local
+      driver_opts:
+        type: nfs
+        o: nfsvers=4.1,addr=nasv0603.uhc.com,rw,nosuid,soft,bg,intr
+        device: ":/nav1200507/ipp_nas_storage_dev"

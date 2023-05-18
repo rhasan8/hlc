@@ -1,0 +1,8 @@
+apiVersion: v1
+metadata:
+  askId: UHGWM110-025040
+  caAgileId: 302714876776
+  projectKey: com.optum.rapidai:k8-pod-healthcheck
+  projectFriendlyName: k8-pod-healthcheck
+  componentType: code
+  targetQG: GATE_00

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="FLUENT" class="main.util.DataFluentAppenderWithId">
+        <tag>agent</tag>
+        <remoteHost>${FLUENTD_HOST}</remoteHost>
+        <port>24224</port>
+        <additionalField>
+            <key>category</key>
+            <value>request</value>
+        </additionalField>
+    </appender>
+
+    <appender name="stash" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- Max queue size of logs which is waiting to be sent (When it reach to the max size, the log will be disappeared). -->
+        <queueSize>999</queueSize>
+        <!-- Never block when the queue becomes full. -->
+        <neverBlock>true</neverBlock>
+        <!-- The default maximum queue flush time allowed during appender stop.
+             If the worker takes longer than this time it will exit, discarding any remaining items in the queue.
+             10000 millis
+         -->
+        <maxFlushTime>1000</maxFlushTime>
+        <appender-ref ref="FLUENT"/>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the type
+ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="stash"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

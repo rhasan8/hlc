@@ -1,0 +1,53 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: /usr/src/java-app/.kube/elr-stage-kubernetes.crt
+    server: https://10.49.2.252:6443
+  name: elr-core-k8s
+- cluster:
+    certificate-authority: /usr/src/java-app/.kube/ca_ctc_nonprod.crt
+    server: https://10.202.2.232:6443
+  name: ctc-nonprod
+- cluster:
+    certificate-authority-data: DATA+OMITTED
+    server: https://kubernetes.docker.internal:6443
+  name: docker-desktop
+contexts:
+- context:
+    cluster: docker-desktop
+    user: docker-desktop
+  name: docker-desktop
+- context:
+    cluster: ctc-nonprod
+    namespace: ipp-devdays-training
+    user: bjakkar
+  name: ipp-devdays-training
+- context:
+    cluster: ctc-nonprod
+    namespace: ipp-nonprod
+    user: bjakkar
+  name: ipp-nonpord
+- context:
+    cluster: elr-core-k8s
+    namespace: ipp-stage
+    user: ipp-service-account
+  name: ipp-prod
+- context:
+    cluster: elr-core-k8s
+    namespace: ipp-stage
+    user: ipp-service-account
+  name: ipp-stage
+current-context: ipp-stage
+kind: Config
+preferences: {}
+users:
+- name: bjakkar
+  user:
+    token: eyJhbGciOiJSUzI1NiIsImtpZCI6Ill6cnRPZkM1WlBmU3J0WnZiWFB2RWJ2REl0eWRKQU5Ib3NHWWdXWkdvS3MifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJpcHAtZGV2ZGF5cy10cmFpbmluZyIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJiamFra2FyLXRva2VuLXNodjVjIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImJqYWtrYXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI0ZmI4NzhmZS03ZWIyLTRhOGYtYWIyYS02ZjViYjY2ODZmZTgiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6aXBwLWRldmRheXMtdHJhaW5pbmc6Ympha2thciJ9.LcMEwif1BjYcJOJMmyrOzPd6jwvNXEy6RDz8GjcMBj1iJdxP14HfklIlhg2HiER4sOTRDi9rFFRTtYzrCYgw012khkRWNVXggznctnKr3nDn5jrbQc5Fm9LAf8rMYE_hVqcnKw2J_Y-eOxD9npTMfR91gtBCZWoWYtx9F8_6E0hQYi98bmTpx205sRh5prWo6d1S8CTAaAE332dddCMXab3yWs4rdB-4AqjysFV6bB9scc3qp2sNcuJ_Tv-lnofxd6DLdg5LP1Z-pr_sg9V5bbK0163wiBDt7IA5WnBpojP7UGKNPRBy9-GE-Iak9T3FKMF0KHzHYz4C2AxqppTzGg
+- name: docker-desktop
+  user:
+    client-certificate-data: REDACTED
+    client-key-data: REDACTED
+- name: ipp-service-account
+  user:
+    token: eyJhbGciOiJSUzI1NiIsImtpZCI6InhsTjNRMDFzeWZVNE9PWTJjOFZ0bGQ5UzRUVnlwTnhpOUNZd0NTbTBCY0EifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJpcHAtc3RhZ2UiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlY3JldC5uYW1lIjoiaXBwLXNlcnZpY2UtYWNjb3VudC10b2tlbi1xZ3NnZiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJpcHAtc2VydmljZS1hY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiYjc1ZWI0N2MtZTgyYS00ODU4LThiNjEtZTdiZDdmMTE5ZTFhIiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50OmlwcC1zdGFnZTppcHAtc2VydmljZS1hY2NvdW50In0.LTRvU17rfs3pHZ9AnYRqu0pZA2_WTkIacFc1MQf69SIdhAlANrcNxXATfhG8351YJjwIkga1Ns7CqZei0Q60W1ytezmB_hZY42j6MRz5R8onwWVzrBGUI0bY9j9x7T5cKDHP22LL4t4Qv5ycG1Aw1LEOaBVnAhSI-TXt8CTMbfPsldQN2aFiDSeWICKw04UZDLeaByrWQMDL1lciZMCO0KtsblhYYAOUDHl0q-R9Pylv74IWeKn4emFqdK_4uV3mUroqNC8_cHRF0iKOZ1q5PdQeUfoQpwJJuQgN_KeveKrb0Es3QwreZVDTpXB26e_3mtm-WnVNHxAtbhGeUjsfRA

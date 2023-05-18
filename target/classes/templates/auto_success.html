@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Auto kill success</title>
+    <style type="text/css">
+        span {
+            display: inline-block;
+            width: 200px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<div align="center">
+    <h2>Auto kill succeeded!</h2>
+    <span>InActivePods:</span><span th:text="${ippHealthCheck.listInActivePods}"></span><br/>
+</div>
+</body>
+</html>

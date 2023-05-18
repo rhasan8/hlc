@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: k8-pod-healthcheck
+  labels:
+   app: k8-pod-healthcheck
+spec:
+  type: NodePort
+  ports:
+   - port: 8095
+     name: https
+     protocol: TCP
+   - port: 8096
+     name: http
+     protocol: TCP
+  selector:
+    app: k8-pod-healthcheck

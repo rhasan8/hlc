@@ -1,0 +1,65 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: k8-pod-healthcheck
+spec:
+  selector:
+    matchLabels:
+      app: k8-pod-healthcheck
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: k8-pod-healthcheck
+    spec:
+      containers:
+      - name: k8-pod-healthcheck
+        env:
+          - name: IPP_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          - name: MAIL_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: ipp-app-secret
+                key: MAIL_USERNAME
+          - name: MAIL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: ipp-app-secret
+                key: MAIL_PASSWORD
+          - name: APP_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: ipp-app-secret
+                key: APP_USERNAME
+          - name: APP_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: ipp-app-secret
+                key: APP_PASSWORD
+        image: docker.repo1.uhc.com/image_processing_platform/k8-pod-healthcheck
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: 1Gi
+            cpu: 1000m
+          requests:
+            memory: 1000Mi
+            cpu: 100m
+        volumeMounts:
+        - name: storage
+          mountPath: /storage
+        securityContext:
+          runAsUser: 1001
+          privileged: false
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: ipp-storage

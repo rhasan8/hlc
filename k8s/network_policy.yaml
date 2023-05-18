@@ -1,0 +1,25 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: k8-pod-healthcheck
+spec:
+  podSelector:
+    matchLabels:
+      app: k8-pod-healthcheck
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - ports:
+        - protocol: TCP
+          port: 8095
+        - protocol: TCP
+          port: 8096
+  egress:
+    - to:
+        - ipBlock:
+            cidr: 10.0.0.0/24
+    - ports:
+        - port: 637
+          protocol: TCP
+

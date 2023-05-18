@@ -1,0 +1,7 @@
+FROM maven:3.6.0-jdk-11-slim
+
+WORKDIR /workspace/source
+
+ENV HOME=/workspace/source
+
+ENTRYPOINT ["mvn", "-Dmaven.repo.local=/workspace/source/.m2/repository", "package"]

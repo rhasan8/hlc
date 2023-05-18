@@ -1,0 +1,35 @@
+FROM openjdk:11-jre-slim
+
+RUN mkdir -p /usr/src/java-app/.kube
+WORKDIR /usr/src/java-app
+RUN cp /workspace/source/target/kubeclient-0.0.1-SNAPSHOT.jar /usr/src/java-app/app.jar
+RUN cp /workspace/source/run.sh /usr/src/java-app/run.sh
+RUN chmod +x run.sh
+
+RUN cp /workspace/source/standard_trusts.jks /usr/src/java-app/standard_trusts.jks
+RUN cp /workspace/source/ca_ctc_nonprod.crt /usr/src/java-app/.kube/ca_ctc_nonprod.crt
+RUN cp /workspace/source/elr-stage-kubernetes.crt /usr/src/java-app/.kube/elr-stage-kubernetes.crt
+RUN cp /workspace/source/elr-prod-kubernetes.crt /usr/src/java-app/.kube/elr-prod-kubernetes.crt
+RUN chown -R 1001:0 /usr/src/java-app
+
+ENV IPP_ENV ""
+ENV NAS_STORAGE ""
+ENV K8_CONFIG_PATH ""
+ENV IPP_NAMESPACE ""
+ENV MAIL_USERNAME ""
+ENV MAIL_PASSWORD ""
+ENV APP_USERNAME ""
+ENV APP_PASSWORD ""
+ENV SW_HOST ""
+ENV DB_HOST ""
+ENV DB_NAME ""
+ENV DB_USER ""
+ENV POSTGRES_PASSWORD ""
+ENV PG_POSTGRES_PASSWORD ""
+ENV WORK_ITEM_URL ""
+ENV TOKEN_URL ""
+ENV APP_URL ""
+
+EXPOSE 8095
+USER 1001
+CMD ["./run.sh"]
